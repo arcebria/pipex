@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:00:51 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/18 10:44:56 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:33:40 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include "../libft/ft_printf.h"
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <stdio.h>
+# include <string.h>
+# include <errno.h>
 
 # define STDIN 0
 # define STDOUT 1
@@ -27,21 +30,25 @@
 
 typedef struct s_pipex
 {
+	char	**env;
+	int		ac;
+	char	**av;
 	int		fd_in;
 	int		fd_out;
-	int		pipe[2];
-	int		pids;
-	char	**env;
+	int		**pipe;
+	pid_t	*pids;
 	char	**cmd_flags;
 	char	*cmd_path;
-	char	*cmd1;
-	char	*cmd2;
+	int		n_cmds;
+	int		child;
 }	t_pipex;
 
-int		open_files(char *filename, int flag);
-void	set_pipes(t_pipex *pipex, char *cmd1);
-void	exe_pipes(t_pipex *pipex, char **env, char *cmd);
-char	*get_path(char **env, char *cmd);
-int		check_acces(char **dir, char *full_path);
+void	init_pipex(t_pipex *pipex, int ac, char **av, char **env);
+int		run_pipex(t_pipex *pipex);
+void	get_cmd(t_pipex *pipex, char *cmd);
+int		err_out(char *str1, char *str2, char *str3, int err_no);
+void	err_ex(int exit_code, t_pipex *pipex);
+void	close_pipes(t_pipex *pipex);
+void	close_fds(t_pipex *pipex);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 22:20:12 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/18 10:44:21 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:07:35 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,14 @@
 int	main(int ac, char **av, char **env)
 {
 	t_pipex		pipex;
+	int			exit_code;
 
-	pipex.env = env;
-	pipex.cmd1 = av[2];
-	pipex.cmd2 = av[3];
-	if (ac != 5)
+	if (ac < 5)
 	{
-		ft_putstr_fd("Numero de argumentos incorrectos\n", 2);
+		ft_putstr_fd("Numero argumentos incorrectos", 2);
 		return (1);
 	}
-	pipex.fd_in = open_files(av[1], INFILE);
-	if (pipex.fd_in == -1)
-		return (1);
-	pipex.fd_out = open_files(av[4], OUTFILE);
-	if (pipex.fd_out == -1)
-		return (1);
-	dup2(pipex.fd_in, STDIN);
-	dup2(pipex.fd_out, STDOUT);
-	set_pipes(&pipex, pipex.cmd1);
-	exe_pipes(&pipex, pipex.env, pipex.cmd2);
-	return (0);
+	init_pipex(&pipex, ac, av, env);
+	exit_code = run_pipex(&pipex);
+	return (exit_code);
 }

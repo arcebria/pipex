@@ -39,6 +39,7 @@ SRCS =  ft_isascii.c \
 	ft_strjoin.c \
 	ft_strnstr.c \
 	ft_free_array.c\
+	ft_free_int_array.c\
 	ft_calloczero.c\
 	ft_printf.c type_cs.c type_num.c type_xXp.c \
 	get_next_line.c get_next_line_utils.c

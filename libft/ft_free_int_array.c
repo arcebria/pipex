@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_array.c                                    :+:      :+:    :+:   */
+/*   ft_free_int_array.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/21 13:14:14 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/21 20:42:06 by arcebria         ###   ########.fr       */
+/*   Created: 2025/01/21 20:38:53 by arcebria          #+#    #+#             */
+/*   Updated: 2025/01/27 20:24:09 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_array(char **array)
+void	ft_free_int_array(int **array, int size)
 {
 	int		i;
 
 	i = 0;
-	if (!array || !*array)
+	if (!array)
 		return ;
-	while (array[i])
-		free(array[i++]);
+	while (i < size)
+	{
+		if (array[i])
+			free(array[i]);
+		i++;
+	}
 	free(array);
 }
