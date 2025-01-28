@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 19:47:39 by arcebria          #+#    #+#             */
-/*   Updated: 2024/12/21 19:33:47 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:30:55 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ char	*update_line(char *static_line)
 		free(static_line);
 		return (NULL);
 	}
+	i++;
 	tmp = ft_calloc2(ft_strlen2(static_line) - i + 1, sizeof(char));
 	if (!tmp)
 		return (NULL);
-	i++;
 	j = 0;
 	while (static_line[i])
 		tmp[j++] = static_line[i++];

@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:54:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/27 21:20:51 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:27:05 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	exe_parent(t_pipex *pipex)
 	}
 	free(pipex->pids);
 	ft_free_int_array(pipex->pipe, pipex->n_cmds - 1);
+	if (pipex->here_doc)
+		unlink(".heredoc.tmp");
 	return (exit_status);
 }
 
@@ -81,7 +83,7 @@ int	run_pipex(t_pipex *pipex)
 	pipex->child = 0;
 	while (pipex->child < pipex->n_cmds)
 	{
-		get_cmd(pipex, pipex->av[2 + pipex->child]);
+		get_cmd(pipex, pipex->av[2 + pipex->child + pipex->here_doc]);
 		pipex->pids[pipex->child] = fork();
 		if (pipex->pids[pipex->child] == -1)
 			err_ex(err_out("fork: ", strerror(errno), "", 1), pipex);

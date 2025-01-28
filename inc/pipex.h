@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:00:51 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/27 20:33:40 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:28:47 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include "../libft/ft_printf.h"
+# include "../libft/get_next_line.h"
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -41,6 +42,7 @@ typedef struct s_pipex
 	char	*cmd_path;
 	int		n_cmds;
 	int		child;
+	int		here_doc;
 }	t_pipex;
 
 void	init_pipex(t_pipex *pipex, int ac, char **av, char **env);
@@ -50,5 +52,6 @@ int		err_out(char *str1, char *str2, char *str3, int err_no);
 void	err_ex(int exit_code, t_pipex *pipex);
 void	close_pipes(t_pipex *pipex);
 void	close_fds(t_pipex *pipex);
+void	get_heredoc(t_pipex *pipex, char *limiter);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:29:23 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/27 21:08:55 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:43:39 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,7 @@ void	err_ex(int exit_code, t_pipex *pipex)
 		if (pipex->cmd_path)
 			free (pipex->cmd_path);
 	}
+	if (pipex->here_doc == 1)
+		unlink(".here_doc.tmp");
 	exit (exit_code);
 }

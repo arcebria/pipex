@@ -6,11 +6,37 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 18:08:38 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/27 20:36:34 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:33:13 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
+
+void	get_heredoc(t_pipex *pipex, char *limiter)
+{
+	char	*line;
+	int		heredoc_fd;
+	int		stdin_fd;
+
+	stdin_fd = dup(STDIN);
+	line = NULL;
+	heredoc_fd = open (".heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (heredoc_fd == -1 || stdin_fd == -1)
+		err_ex(err_out("here_doc", ": ", strerror(errno), 1), pipex);
+	while (1)
+	{
+		ft_putstr_fd("here_doc> ", STDOUT);
+		line = get_next_line(stdin_fd);
+		if (!line)
+			break ;
+		if (!ft_strncmp(line, limiter, ft_strlen(limiter)))
+			close(stdin_fd);
+		else
+			ft_putstr_fd(line, heredoc_fd);
+		free(line);
+	}
+	close (heredoc_fd);
+}
 
 int	check_acces(char **dir, char *full_path)
 {
@@ -64,5 +90,5 @@ void	get_cmd(t_pipex *pipex, char *cmd)
 	else
 		pipex->cmd_path = get_path(pipex->env, pipex->cmd_flags[0]);
 	if (!pipex->cmd_path)
-		err_ex(err_out("Error al encontrar", "", "", 127), pipex);
+		err_ex(err_out("Error al encontrar ruta", "", "", 127), pipex);
 }
