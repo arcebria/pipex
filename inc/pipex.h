@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:00:51 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/28 21:28:47 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:25:01 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_pipex
 	char	**av;
 	int		fd_in;
 	int		fd_out;
-	int		**pipe;
+	int		*pipe;
 	pid_t	*pids;
 	char	**cmd_flags;
 	char	*cmd_path;
@@ -53,5 +53,6 @@ void	err_ex(int exit_code, t_pipex *pipex);
 void	close_pipes(t_pipex *pipex);
 void	close_fds(t_pipex *pipex);
 void	get_heredoc(t_pipex *pipex, char *limiter);
+void	free_stuff(char *str, char **array);
 
 #endif

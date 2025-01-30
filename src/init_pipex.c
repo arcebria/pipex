@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:08:46 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/28 21:33:00 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:35:54 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	create_pipes(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (i < pipex->n_cmds - 1)
+	while (i < (pipex->n_cmds - 1) * 2)
 	{
-		pipex->pipe[i] = malloc(sizeof(int) * 2);
-		if (pipe(pipex->pipe[i]) == -1)
+		if (pipe(pipex->pipe + (2 * i)) == -1)
 			err_ex(err_out("pipe: ", "Too many open files", "", 1), pipex);
 		i++;
 	}
@@ -79,7 +78,7 @@ void	init_pipex(t_pipex *pipex, int ac, char **av, char **env)
 	if (!pipex->pids)
 		err_ex(err_out("fork: ", "Resource temporarily unavaiable",
 				"", 1), pipex);
-	pipex->pipe = malloc(sizeof(pipex->pipe) * (pipex->n_cmds - 1));
+	pipex->pipe = malloc(sizeof(pipex->pipe) * (pipex->n_cmds - 1) * 2);
 	if (!pipex->pipe)
 		err_ex(err_out("pipe: ", "Cannot allocate memory", "", 1), pipex);
 	create_pipes(pipex);

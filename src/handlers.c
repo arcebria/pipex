@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:29:23 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/28 17:43:39 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:36:22 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	close_pipes(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (i < (pipex->n_cmds - 1))
+	while (i < (pipex->n_cmds - 1) * 2)
 	{
-		close(pipex->pipe[i][0]);
-		close(pipex->pipe[i][1]);
+		close(pipex->pipe[i]);
 		i++;
 	}
 }

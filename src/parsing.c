@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 18:08:38 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/28 21:33:13 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:49:40 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	get_heredoc(t_pipex *pipex, char *limiter)
 			ft_putstr_fd(line, heredoc_fd);
 		free(line);
 	}
-	close (heredoc_fd);
+	close(heredoc_fd);
 }
 
 int	check_acces(char **dir, char *full_path)
@@ -86,9 +86,7 @@ void	get_cmd(t_pipex *pipex, char *cmd)
 		exit(1);
 	}
 	if (ft_strchr(pipex->cmd_flags[0], '/'))
-		pipex->cmd_path = pipex->cmd_flags[0];
+		pipex->cmd_path = ft_strdup(cmd);
 	else
 		pipex->cmd_path = get_path(pipex->env, pipex->cmd_flags[0]);
-	if (!pipex->cmd_path)
-		err_ex(err_out("Error al encontrar ruta", "", "", 127), pipex);
 }

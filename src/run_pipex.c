@@ -6,7 +6,7 @@
 /*   By: arcebria <arcebria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:54:40 by arcebria          #+#    #+#             */
-/*   Updated: 2025/01/28 17:27:05 by arcebria         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:47:37 by arcebria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ void	dup_files(t_pipex *pipex)
 	{
 		if (dup2(pipex->fd_in, STDIN) == -1)
 			err_ex(1, pipex);
-		if (dup2(pipex->pipe[pipex->child][1], STDOUT) == -1)
+		if (dup2(pipex->pipe[1], STDOUT) == -1)
 			err_ex(1, pipex);
 	}
 	else if (pipex->child == (pipex->n_cmds - 1))
 	{
-		if (dup2(pipex->pipe[pipex->child - 1][0], STDIN) == -1)
+		if (dup2(pipex->pipe[2 * pipex->child - 2], STDIN) == -1)
 			err_ex(1, pipex);
 		if (dup2(pipex->fd_out, STDOUT) == -1)
 			err_ex(1, pipex);
 	}
 	else
 	{
-		if (dup2(pipex->pipe[pipex->child - 1][0], STDIN) == -1)
+		if (dup2(pipex->pipe[2 * pipex->child - 2], STDIN) == -1)
 			err_ex(1, pipex);
-		if (dup2(pipex->pipe[pipex->child][1], STDOUT) == -1)
+		if (dup2(pipex->pipe[2 * pipex->child + 1], STDOUT) == -1)
 			err_ex(1, pipex);
 	}
 }
@@ -64,7 +64,7 @@ int	exe_parent(t_pipex *pipex)
 		pipex->child--;
 	}
 	free(pipex->pids);
-	ft_free_int_array(pipex->pipe, pipex->n_cmds - 1);
+	free(pipex->pipe);
 	if (pipex->here_doc)
 		unlink(".heredoc.tmp");
 	return (exit_status);
@@ -74,9 +74,12 @@ void	exe_child(t_pipex *pipex)
 {
 	dup_files(pipex);
 	close_pipes(pipex);
-	execve(pipex->cmd_path, pipex->cmd_flags, pipex->env);
-	err_ex(err_out(pipex->cmd_flags[0], ": ", strerror(errno), 1), pipex);
+	if (execve(pipex->cmd_path, pipex->cmd_flags, pipex->env) == -1)
+		err_ex(err_out(pipex->cmd_flags[0], ": ", strerror(errno), 127), pipex);
 }
+
+//free(pipex->cmd_path);
+//ft_free_array(pipex->cmd_flags);
 
 int	run_pipex(t_pipex *pipex)
 {
