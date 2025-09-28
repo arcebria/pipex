@@ -35,12 +35,6 @@ Este proyecto me permitió aprender sobre la **programación de procesos**, la *
 
 ---
 
-## 📦 **Enlace útil para la librería libft**
-
-[🔗 libft en GitHub](https://github.com/your-username/libft)
-
----
-
 ## ⚡ **Ejemplo de uso**
 
 ```sh
